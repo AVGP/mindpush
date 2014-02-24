@@ -37,16 +37,20 @@
   document.body.addEventListener("touchstart", function(e) {
     touchStartPoint.x = e.touches[0].clientX;
     touchStartPoint.y = e.touches[0].clientY;
+    e.preventDefault();
   });
   
   document.body.addEventListener("touchmove", function(e) {
-    if(Math.abs(e.changedTouches[0].clientY - touchStartPoint.y) > 50) {
+    if(Math.abs(e.changedTouches[0].clientY - touchStartPoint.y) > 50 && !inGame) {
+      inGame = true;
       startGame();
       return;
     }
     if(Math.abs(e.changedTouches[0].clientX - touchStartPoint.x) < 30) return;
     
     wasShape((e.changedTouches[0].clientX > touchStartPoint.x ? "different" : "same"));
+    
+    e.preventDefault();
   });
   
   document.body.addEventListener("keypress", function(e) {
