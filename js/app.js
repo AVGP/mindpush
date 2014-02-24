@@ -14,7 +14,34 @@
       score    = 0,
       errors   = 0;
   
+  var touchStartPoint = {x: 0, y: 0};
+  
   document.body.addEventListener("animationend", function() { document.body.classList.remove("flash") }, false);
+  
+  var wasShape = function(test) {
+    if(prevShape && prevShape.color == currentShape.color && prevShape.shape == currentShape.shape) {
+      if(test == "same") {
+        score++;
+      } else {
+        errors++;
+      }
+    } else if(prevShape) {
+      if(test == "same") {
+        errors++;
+      } else {
+        score++;
+      }
+    }
+  };
+  
+  document.body.addEventListener("touchstart", function(e) {
+    touchStartPoint.x = e.touches[0].clientX;
+    touchStartPoint.y = e.touches[0].clientY;
+  });
+  
+  document.body.addEventListener("touchend", function(e) {
+    wasShap((e.changedTouches[0].clientX > touchStartPoint.x ? "different" : "same"));
+  });
   
   document.body.addEventListener("keypress", function(e) {
     console.log(e.keyCode);
@@ -22,21 +49,13 @@
       //LEFT
       case 97:
         console.log("A: ", prevShape, currentShape);
-        if(prevShape && prevShape.color == currentShape.color && prevShape.shape == currentShape.shape) {
-          score++;
-        } else if(prevShape) {
-          errors++;
-        }
+        wasShape("same");
         nextShape();
         break;
       //RIGHT        
       case 108:
         console.log("L", prevShape, currentShape);
-        if(prevShape && prevShape.color == currentShape.color && prevShape.shape == currentShape.shape) {
-          errors++;
-        } else if(prevShape) {
-          score++;
-        }
+        wasShape("different");
         nextShape();
         break;
       case 32: //Space
