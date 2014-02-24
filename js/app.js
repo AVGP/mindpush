@@ -39,7 +39,13 @@
     touchStartPoint.y = e.touches[0].clientY;
   });
   
-  document.body.addEventListener("touchend", function(e) {
+  document.body.addEventListener("touchmove", function(e) {
+    if(Math.abs(e.changedTouches[0].clientY - touchStartPoint.y) > 50) {
+      startGame();
+      return;
+    }
+    if(Math.abs(e.changedTouches[0].clientX - touchStartPoint.x) < 30) return;
+    
     wasShap((e.changedTouches[0].clientX > touchStartPoint.x ? "different" : "same"));
   });
   
