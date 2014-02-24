@@ -67,6 +67,7 @@
   
   var startGame = function() {
     timeLeft = 30;
+    prevShape = null;
     Shapes.drawShape(currentShape.shape, currentShape.color);    
     setTimeout(function loop() {
       if(timeLeft > 1) { setTimeout(loop, 1000); }
