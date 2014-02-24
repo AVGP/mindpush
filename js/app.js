@@ -50,6 +50,10 @@
     
     wasShape((e.changedTouches[0].clientX > touchStartPoint.x ? "different" : "same"));
     nextShape();
+    
+    touchStartPoint.x = e.changedTouches[0].clientX;
+    touchStartPoint.y = e.changedTouches[0].clientY;
+    
     e.preventDefault();
   });
   
