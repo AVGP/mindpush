@@ -40,7 +40,7 @@
     e.preventDefault();
   });
   
-  document.body.addEventListener("touchmove", function(e) {
+  document.body.addEventListener("touchend", function(e) {
     if(Math.abs(e.changedTouches[0].clientY - touchStartPoint.y) > 50 && !inGame) {
       inGame = true;
       startGame();
