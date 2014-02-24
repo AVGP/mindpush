@@ -49,7 +49,7 @@
     if(Math.abs(e.changedTouches[0].clientX - touchStartPoint.x) < 30) return;
     
     wasShape((e.changedTouches[0].clientX > touchStartPoint.x ? "different" : "same"));
-    
+    nextShape();
     e.preventDefault();
   });
   
