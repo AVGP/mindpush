@@ -2,27 +2,7 @@
   var COLORS = ["magenta", "cyan", "yellow", "lightgreen"],
       SHAPES = ["circle", "rect", "triangle"]; //, "plus"];
       
-  Shapes.init("body");
-  
-  var keyboardOnlyElems = document.querySelectorAll(".keyboard"),
-      touchOnlyElems    = document.querySelectorAll(".touch");
-  if("ontouchstart" in window) {
-    for(var i=0; i<keyboardOnlyElems.length; i++) {
-      keyboardOnlyElems[i].style.display = "none";
-    }
-    for(var i=0; i<touchOnlyElems.length; i++) {
-      touchOnlyElems[i].style.display = "block";
-    }
-  } else {
-    for(var i=0; i<keyboardOnlyElems.length; i++) {
-      keyboardOnlyElems[i].style.display = "block";
-      console.log(keyboardOnlyElems[i].style.display);
-    }
-    for(var i=0; i<touchOnlyElems.length; i++) {
-      console.log(touchOnlyElems[i].style.display);
-      touchOnlyElems[i].style.display = "none";
-    }
-  }
+  Shapes.init("#game");
   
   var currentShape = {
     shape: SHAPES[~~(Math.random() * SHAPES.length)],
@@ -34,41 +14,77 @@
       score    = 0,
       errors   = 0;
   
+  var touchStartPoint = {x: 0, y: 0};
+  
+  var gotoSection = function(id) {
+    document.querySelector("section.current").classList.remove("current");
+    document.getElementById(id).classList.add("current");
+  };  
+  
   document.body.addEventListener("animationend", function() { document.body.classList.remove("flash") }, false);
   
+  var wasShape = function(test) {
+    if(prevShape && prevShape.color == currentShape.color && prevShape.shape == currentShape.shape) {
+      if(test == "same") {
+        score++;
+      } else {
+        errors++;
+      }
+    } else if(prevShape) {
+      if(test == "same") {
+        errors++;
+      } else {
+        score++;
+      }
+    }
+  };
+  
+  document.body.addEventListener("touchstart", function(e) {
+    touchStartPoint.x = e.touches[0].clientX;
+    touchStartPoint.y = e.touches[0].clientY;
+    e.preventDefault();
+  });
+  
+  document.body.addEventListener("touchend", function(e) {
+    if(Math.abs(e.changedTouches[0].clientY - touchStartPoint.y) > 50 && !inGame) {
+      inGame = true;
+      startGame();
+      return;
+    }
+    if(Math.abs(e.changedTouches[0].clientX - touchStartPoint.x) < 30) return;
+    
+    wasShape((e.changedTouches[0].clientX > touchStartPoint.x ? "different" : "same"));
+    nextShape();
+    
+    touchStartPoint.x = e.changedTouches[0].clientX;
+    touchStartPoint.y = e.changedTouches[0].clientY;
+    
+    e.preventDefault();
+  });
+  
   document.body.addEventListener("keypress", function(e) {
-    console.log(e.keyCode);
     switch(e.keyCode) {
-      //LEFT
+      //LEFT (A)
       case 97:
-        console.log("A: ", prevShape, currentShape);
-        if(prevShape && prevShape.color == currentShape.color && prevShape.shape == currentShape.shape) {
-          score++;
-        } else if(prevShape) {
-          errors++;
-        }
+        wasShape("same");
         nextShape();
         break;
-      //RIGHT        
+      //RIGHT (L)
       case 108:
-        console.log("L", prevShape, currentShape);
-        if(prevShape && prevShape.color == currentShape.color && prevShape.shape == currentShape.shape) {
-          errors++;
-        } else if(prevShape) {
-          score++;
-        }
+        wasShape("different");
         nextShape();
         break;
       case 32: //Space
-        console.log("SPAAACE");
         e.preventDefault();
+
         if(inGame) return;
+
         startGame();
         inGame = true;
+        gotoSection("game");
         window.scrollTo(0);
         break;
     }
-    console.log("RET");
     return false;
   });
   
@@ -86,12 +102,28 @@
   }
   
   var startGame = function() {
+    timeLeft = 30;
+    prevShape = null;
     Shapes.drawShape(currentShape.shape, currentShape.color);    
     setTimeout(function loop() {
       if(timeLeft > 1) { setTimeout(loop, 1000); }
       else {
         inGame = false;
-        alert("You made a score of " + score + " ( " + (score / 30.0).toPrecision(2) + " shapes/s)and " + errors + " mistakes");
+        
+        var maxScore = parseInt(window.localStorage.getItem("highscore") || "0", 10);
+        
+        document.getElementById("totalScore").textContent   = score - errors;
+        document.getElementById("score").textContent        = score;
+        document.getElementById("errors").textContent       = errors;
+        document.getElementById("shapesPerSec").textContent = (score / 30.0).toPrecision(2);
+        document.getElementById("best").textContent         = maxScore;
+        
+        if((score - errors) > maxScore) {
+          document.getElementById("best").textContent += " (NEW highscore!)";
+          window.localStorage.setItem("highscore", (score-errors));
+        }
+        
+        gotoSection("result");
       }
       timeLeft--;
       document.getElementById("state").textContent = timeLeft;
