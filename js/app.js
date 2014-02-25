@@ -4,6 +4,26 @@
       
   Shapes.init("body");
   
+  var keyboardOnlyElems = document.querySelectorAll(".keyboard"),
+      touchOnlyElems    = document.querySelectorAll(".touch");
+  if("ontouchstart" in window) {
+    for(var i=0; i<keyboardOnlyElems.length; i++) {
+      keyboardOnlyElems[i].style.display = "none";
+    }
+    for(var i=0; i<touchOnlyElems.length; i++) {
+      touchOnlyElems[i].style.display = "block";
+    }
+  } else {
+    for(var i=0; i<keyboardOnlyElems.length; i++) {
+      keyboardOnlyElems[i].style.display = "block";
+      console.log(keyboardOnlyElems[i].style.display);
+    }
+    for(var i=0; i<touchOnlyElems.length; i++) {
+      console.log(touchOnlyElems[i].style.display);
+      touchOnlyElems[i].style.display = "none";
+    }
+  }
+  
   var currentShape = {
     shape: SHAPES[~~(Math.random() * SHAPES.length)],
     color: COLORS[~~(Math.random() * COLORS.length)]
@@ -14,48 +34,7 @@
       score    = 0,
       errors   = 0;
   
-  var touchStartPoint = {x: 0, y: 0};
-  
   document.body.addEventListener("animationend", function() { document.body.classList.remove("flash") }, false);
-  
-  var wasShape = function(test) {
-    if(prevShape && prevShape.color == currentShape.color && prevShape.shape == currentShape.shape) {
-      if(test == "same") {
-        score++;
-      } else {
-        errors++;
-      }
-    } else if(prevShape) {
-      if(test == "same") {
-        errors++;
-      } else {
-        score++;
-      }
-    }
-  };
-  
-  document.body.addEventListener("touchstart", function(e) {
-    touchStartPoint.x = e.touches[0].clientX;
-    touchStartPoint.y = e.touches[0].clientY;
-    e.preventDefault();
-  });
-  
-  document.body.addEventListener("touchend", function(e) {
-    if(Math.abs(e.changedTouches[0].clientY - touchStartPoint.y) > 50 && !inGame) {
-      inGame = true;
-      startGame();
-      return;
-    }
-    if(Math.abs(e.changedTouches[0].clientX - touchStartPoint.x) < 30) return;
-    
-    wasShape((e.changedTouches[0].clientX > touchStartPoint.x ? "different" : "same"));
-    nextShape();
-    
-    touchStartPoint.x = e.changedTouches[0].clientX;
-    touchStartPoint.y = e.changedTouches[0].clientY;
-    
-    e.preventDefault();
-  });
   
   document.body.addEventListener("keypress", function(e) {
     console.log(e.keyCode);
@@ -63,13 +42,21 @@
       //LEFT
       case 97:
         console.log("A: ", prevShape, currentShape);
-        wasShape("same");
+        if(prevShape && prevShape.color == currentShape.color && prevShape.shape == currentShape.shape) {
+          score++;
+        } else if(prevShape) {
+          errors++;
+        }
         nextShape();
         break;
       //RIGHT        
       case 108:
         console.log("L", prevShape, currentShape);
-        wasShape("different");
+        if(prevShape && prevShape.color == currentShape.color && prevShape.shape == currentShape.shape) {
+          errors++;
+        } else if(prevShape) {
+          score++;
+        }
         nextShape();
         break;
       case 32: //Space
@@ -99,8 +86,6 @@
   }
   
   var startGame = function() {
-    timeLeft = 30;
-    prevShape = null;
     Shapes.drawShape(currentShape.shape, currentShape.color);    
     setTimeout(function loop() {
       if(timeLeft > 1) { setTimeout(loop, 1000); }
