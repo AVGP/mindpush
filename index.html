@@ -9,13 +9,24 @@
     <link rel="shortcut icon" href="img/icon128.png" />
   </head>
   <body>
-   <h2 id="state"></h2>
-    <p class="keyboard">Press <strong>A</strong> if the color and shape are the same, press <strong>L</strong> if they weren't. Press space to start</p>
-    <p class="touch">Pull down to start, swipe left if color &amp; shape are the same, swipe right if they weren't. Start with any swipe.</p>
+    <section id="start" class="current">
+      <p class="keyboard">Press <strong>A</strong> if the color and shape are the same, press <strong>L</strong> if they weren't. Press space to start</p>
+      <p class="touch">Pull down to start, swipe left if color &amp; shape are the same, swipe right if they weren't. Start with any swipe.</p>
+      <div style="position:absolute; bottom: 0px">Icon made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com/free-icon/brain-inside-human-head_30609" title="Flaticon">www.flaticon.com</a></div>      
+   </section>
+   
+   <section id="game">
+     <h2 id="state"></h2>
+   </section>
+   
+   <section id="result">
+     <h2>Final score: <span id="totalScore"></span></h2>
+     <p>You got <span id="score"></span> shapes (<span id="shapesPerSec"></span> shapes/second) and got <span id="errors"></span> wrong.</p>
+     <p>Your best result was <span id="best"></span></p>
+   </section>
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.1/d3.min.js"></script>
     <script src="js/shapes.js"></script>  
     <script src="js/app.js"></script>
-    <div>Icon made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com/free-icon/brain-inside-human-head_30609" title="Flaticon">www.flaticon.com</a></div>
   </body>
 </html>
