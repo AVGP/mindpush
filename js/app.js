@@ -94,7 +94,9 @@
   });
   
   var nextShape = function() {
-    document.querySelector("section.current").classList.add("flash");
+    document.getElementById("currentScore").textContent = score - errors;
+    document.getElementById("scoreNow").classList.add("flash");
+    
     prevShape = currentShape;
     if(Math.random() >= 0.5) {
       currentShape = {

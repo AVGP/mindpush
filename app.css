@@ -35,23 +35,31 @@ section.prev {
 }
 
 .flash {
-  -webkit-animation-duration: 0.05s;
+  -webkit-animation-duration: 0.1s;
   -webkit-animation-name: flash;
-  animation-duration: 0.05s;
+  animation-duration: 0.1s;
   animation-name: flash;  
 }
+
+#scoreNow { text-align: center;}
 
 @keyframes flash {
   from {
     background-color: white;
+    color: black;
+    font-weight: normal;
   }
   
   50% {
-    background-color: gray;
+    background-color: orange;
+    color: blue;
+    font-weight: bold;
   }
   
   to {
     background-color: white;
+    color: black;
+    font-weight: normal;
   }
 }
 
