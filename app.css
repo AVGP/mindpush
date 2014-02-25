@@ -9,6 +9,16 @@ html, body {
 
 h2 { text-align: center; }
 
+section {
+  display: none;
+  width:   100%;
+  height:  100%;
+}
+
+section.current {
+  display: block;
+}
+
 .flash {
   animation-duration: 0.05s;
   animation-name: flash;  
