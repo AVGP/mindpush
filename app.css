@@ -7,6 +7,8 @@ html, body {
   font-family: Helvetica, Verdana, Arial, sans-serif;
 }
 
+h2 { text-align: center; }
+
 .flash {
   animation-duration: 0.05s;
   animation-name: flash;  
