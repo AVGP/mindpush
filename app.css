@@ -23,20 +23,37 @@ section {
 
 section.current {
   left: 0;
-  transition: left 0.5s ease-in;
+  -webkit-transition: left 0.5s ease-in;
 }
 
 section.prev {
   left: -100%;
   transition: left 0.5s ease-in;
+  -webkit-transition: left 0.5s ease-in;
 }
 
 .flash {
+  -webkit-animation-duration: 0.05s;
+  -webkit-animation-name: flash;
   animation-duration: 0.05s;
   animation-name: flash;  
 }
 
 @keyframes flash {
+  from {
+    background-color: white;
+  }
+  
+  50% {
+    background-color: gray;
+  }
+  
+  to {
+    background-color: white;
+  }
+}
+
+@-webkit-keyframes flash {
   from {
     background-color: white;
   }

@@ -25,7 +25,7 @@
     document.getElementById(id).classList.add("current");
   };  
   
-  document.body.addEventListener("animationend", function() { document.body.classList.remove("flash") }, false);
+  document.body.addEventListener("animationend", function() { document.querySelector("section.current").classList.remove("flash") }, false);
   
   var wasShape = function(test) {
     if(prevShape && prevShape.color == currentShape.color && prevShape.shape == currentShape.shape) {
@@ -93,7 +93,7 @@
   });
   
   var nextShape = function() {
-    document.body.classList.add("flash");
+    document.querySelector("section.current").classList.add("flash");
     prevShape = currentShape;
     if(Math.random() >= 0.5) {
       currentShape = {
@@ -107,6 +107,8 @@
   
   var startGame = function() {
     timeLeft = 30;
+    score    = 0;
+    errors   = 0;
     prevShape = null;
     Shapes.drawShape(currentShape.shape, currentShape.color);    
     setTimeout(function loop() {
