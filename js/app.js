@@ -16,6 +16,29 @@
   
   var touchStartPoint = {x: 0, y: 0};
   
+  // determine if we're having touch capabilities
+  var keyboardOnlyElems = document.querySelectorAll(".keyboard"),
+      touchOnlyElems    = document.querySelectorAll(".touch");
+  if("ontouchstart" in window) {
+    for(var i=0; i<keyboardOnlyElems.length; i++) {
+      keyboardOnlyElems[i].style.display = "none";
+    }
+    for(var i=0; i<touchOnlyElems.length; i++) {
+      touchOnlyElems[i].style.display = "block";
+    }
+  } else {
+    for(var i=0; i<keyboardOnlyElems.length; i++) {
+      keyboardOnlyElems[i].style.display = "block";
+      console.log(keyboardOnlyElems[i].style.display);
+    }
+    for(var i=0; i<touchOnlyElems.length; i++) {
+      console.log(touchOnlyElems[i].style.display);
+      touchOnlyElems[i].style.display = "none";
+    }
+  }  
+
+  // some internal helpers
+  
   var gotoSection = function(id) {
     var prev = document.querySelector(".prev");
     if(prev) prev.classList.remove("prev");
@@ -24,8 +47,6 @@
     cl.add("prev");
     document.getElementById(id).classList.add("current");
   };  
-  
-  document.body.addEventListener("animationend", function() { document.querySelector(".flash").classList.remove("flash") }, false);
   
   var wasShape = function(test) {
     if(prevShape && prevShape.color == currentShape.color && prevShape.shape == currentShape.shape) {
@@ -42,6 +63,56 @@
       }
     }
   };
+  
+  var nextShape = function() {
+    document.getElementById("currentScore").textContent = score - errors;
+    document.getElementById("scoreNow").classList.add("flash");
+    
+    prevShape = currentShape;
+    if(Math.random() >= 0.5) {
+      currentShape = {
+        shape: SHAPES[~~(Math.random() * SHAPES.length)],
+        color: COLORS[~~(Math.random() * COLORS.length)]
+      };
+    }
+    Shapes.clear();
+    Shapes.drawShape(currentShape.shape, currentShape.color); 
+  }
+  
+  var startGame = function() {
+    timeLeft = 30;
+    score    = 0;
+    errors   = 0;
+    prevShape = null;
+    Shapes.drawShape(currentShape.shape, currentShape.color);    
+    setTimeout(function loop() {
+      if(timeLeft > 1) { setTimeout(loop, 1000); }
+      else {
+        inGame = false;
+        
+        var maxScore = parseInt(window.localStorage.getItem("highscore") || "0", 10);
+        
+        document.getElementById("totalScore").textContent   = score - errors;
+        document.getElementById("score").textContent        = score;
+        document.getElementById("errors").textContent       = errors;
+        document.getElementById("shapesPerSec").textContent = (score / 30.0).toPrecision(2);
+        document.getElementById("best").textContent         = maxScore;
+        
+        if((score - errors) > maxScore) {
+          document.getElementById("best").textContent += " (NEW highscore!)";
+          window.localStorage.setItem("highscore", (score-errors));
+        }
+        
+        gotoSection("result");
+      }
+      timeLeft--;
+      document.getElementById("state").textContent = timeLeft;
+    }, 1000);
+  };
+  
+  // event handling
+  
+  document.body.addEventListener("animationend", function() { document.querySelector(".flash").classList.remove("flash") }, false);
   
   document.body.addEventListener("touchstart", function(e) {
     touchStartPoint.x = e.touches[0].clientX;
@@ -92,51 +163,5 @@
     }
     return false;
   });
-  
-  var nextShape = function() {
-    document.getElementById("currentScore").textContent = score - errors;
-    document.getElementById("scoreNow").classList.add("flash");
-    
-    prevShape = currentShape;
-    if(Math.random() >= 0.5) {
-      currentShape = {
-        shape: SHAPES[~~(Math.random() * SHAPES.length)],
-        color: COLORS[~~(Math.random() * COLORS.length)]
-      };
-    }
-    Shapes.clear();
-    Shapes.drawShape(currentShape.shape, currentShape.color); 
-  }
-  
-  var startGame = function() {
-    timeLeft = 30;
-    score    = 0;
-    errors   = 0;
-    prevShape = null;
-    Shapes.drawShape(currentShape.shape, currentShape.color);    
-    setTimeout(function loop() {
-      if(timeLeft > 1) { setTimeout(loop, 1000); }
-      else {
-        inGame = false;
-        
-        var maxScore = parseInt(window.localStorage.getItem("highscore") || "0", 10);
-        
-        document.getElementById("totalScore").textContent   = score - errors;
-        document.getElementById("score").textContent        = score;
-        document.getElementById("errors").textContent       = errors;
-        document.getElementById("shapesPerSec").textContent = (score / 30.0).toPrecision(2);
-        document.getElementById("best").textContent         = maxScore;
-        
-        if((score - errors) > maxScore) {
-          document.getElementById("best").textContent += " (NEW highscore!)";
-          window.localStorage.setItem("highscore", (score-errors));
-        }
-        
-        gotoSection("result");
-      }
-      timeLeft--;
-      document.getElementById("state").textContent = timeLeft;
-    }, 1000);
-  };
   
 })();
