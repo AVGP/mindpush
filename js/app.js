@@ -17,7 +17,11 @@
   var touchStartPoint = {x: 0, y: 0};
   
   var gotoSection = function(id) {
-    document.querySelector("section.current").classList.remove("current");
+    var prev = document.querySelector(".prev");
+    if(prev) prev.classList.remove("prev");
+    var cl = document.querySelector("section.current").classList;
+    cl.remove("current");
+    cl.add("prev");
     document.getElementById(id).classList.add("current");
   };  
   

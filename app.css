@@ -10,13 +10,25 @@ html, body {
 h2 { text-align: center; }
 
 section {
-  display: none;
+  background: white;
   width:   100%;
   height:  100%;
+  left:    100%;
+  
+  margin:  0;
+  padding: 0;
+  
+  position: absolute;
 }
 
 section.current {
-  display: block;
+  left: 0;
+  transition: left 0.5s ease-in;
+}
+
+section.prev {
+  left: -100%;
+  transition: left 0.5s ease-in;
 }
 
 .flash {
