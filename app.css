@@ -5,6 +5,7 @@ html, body {
   height: 100%;
   box-sizing: border-box;
   font-family: Helvetica, Verdana, Arial, sans-serif;
+  overflow: hidden;
 }
 
 h2 { text-align: center; }
