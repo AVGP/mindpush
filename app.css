@@ -66,13 +66,19 @@ section.prev {
 @-webkit-keyframes flash {
   from {
     background-color: white;
+    color: black;
+    font-weight: normal;
   }
   
   50% {
-    background-color: gray;
+    background-color: orange;
+    color: blue;
+    font-weight: bold;
   }
   
   to {
     background-color: white;
+    color: black;
+    font-weight: normal;
   }
 }
