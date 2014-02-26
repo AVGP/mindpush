@@ -1,6 +1,6 @@
 window.addEventListener("deviceready", function() {
   console.log("Device ready");
-  window.init = this;
+  window.initApp = this;
   var COLORS = ["magenta", "cyan", "yellow", "lightgreen"],
       SHAPES = ["circle", "rect", "triangle"]; //, "plus"];
       
