@@ -9,6 +9,8 @@
 
     <name>MindPush</name>
 
+    <icon src="icon.png" />
+
     <description>
       A simple reaction puzzle
     </description>
