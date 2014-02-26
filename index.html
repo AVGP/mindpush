@@ -3,8 +3,7 @@
   <head>
     <title>MindPush</title>
     <meta name="viewport" content="width=device-width">
-    <meta name="mobile-web-app-capable" content="yes">
-    
+
     <link rel="stylesheet" href="app.css">
     <link rel="shortcut icon" href="img/icon128.png" />
   </head>
@@ -33,27 +32,6 @@
     <script type="text/javascript">
       window.addEventListener("deviceready", function() {
         alert("OK");
-
-var keyboardOnlyElems = document.querySelectorAll(".keyboard"),
-      touchOnlyElems    = document.querySelectorAll(".touch");
-  if("ontouchstart" in window) {
-    for(var i=0; i<keyboardOnlyElems.length; i++) {
-      keyboardOnlyElems[i].style.display = "none";
-    }
-    for(var i=0; i<touchOnlyElems.length; i++) {
-      touchOnlyElems[i].style.display = "block";
-    }
-  } else {
-    for(var i=0; i<keyboardOnlyElems.length; i++) {
-      keyboardOnlyElems[i].style.display = "block";
-      console.log(keyboardOnlyElems[i].style.display);
-    }
-    for(var i=0; i<touchOnlyElems.length; i++) {
-      console.log(touchOnlyElems[i].style.display);
-      touchOnlyElems[i].style.display = "none";
-    }
-  }
-        
       });
     </script>
   </body>
