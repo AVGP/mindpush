@@ -1,4 +1,6 @@
 window.addEventListener("deviceready", function() {
+  console.log("Device ready");
+  window.init = this;
   var COLORS = ["magenta", "cyan", "yellow", "lightgreen"],
       SHAPES = ["circle", "rect", "triangle"]; //, "plus"];
       
@@ -170,5 +172,5 @@ window.addEventListener("deviceready", function() {
     }
     return false;
   });
-  
+  console.log("Worked.");  
 });
