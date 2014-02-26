@@ -3,7 +3,8 @@
         xmlns:gap   = "http://phonegap.com/ns/1.0"
         id          = "de.geekonaut.mindpush"
         versionCode = "10" 
-        version     = "0.0.1" >
+        version     = "0.0.1"
+        targetSdkVersion = "17">
 
     <!-- versionCode is optional and Android only -->
 
