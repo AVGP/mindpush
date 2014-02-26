@@ -1,4 +1,4 @@
-(function() {
+window.addEventListener("deviceready", function() {
   var COLORS = ["magenta", "cyan", "yellow", "lightgreen"],
       SHAPES = ["circle", "rect", "triangle"]; //, "plus"];
       
@@ -171,4 +171,4 @@
     return false;
   });
   
-})();
+});
