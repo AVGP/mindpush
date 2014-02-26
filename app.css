@@ -63,6 +63,10 @@ section.prev {
   }
 }
 
+svg {
+  position: relative;
+}
+
 @-webkit-keyframes flash {
   from {
     background-color: white;
