@@ -27,8 +27,34 @@
    </section>
 
     <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
-    <script type="text/javascript" charset="utf-8" src="js/d3.min.js"></script>
+    <!--script type="text/javascript" charset="utf-8" src="js/d3.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/shapes.js"></script>  
-    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script-->
+    <script type="text/javascript">
+      window.addEventListener("deviceready", function() {
+        alert("OK");
+
+var keyboardOnlyElems = document.querySelectorAll(".keyboard"),
+      touchOnlyElems    = document.querySelectorAll(".touch");
+  if("ontouchstart" in window) {
+    for(var i=0; i<keyboardOnlyElems.length; i++) {
+      keyboardOnlyElems[i].style.display = "none";
+    }
+    for(var i=0; i<touchOnlyElems.length; i++) {
+      touchOnlyElems[i].style.display = "block";
+    }
+  } else {
+    for(var i=0; i<keyboardOnlyElems.length; i++) {
+      keyboardOnlyElems[i].style.display = "block";
+      console.log(keyboardOnlyElems[i].style.display);
+    }
+    for(var i=0; i<touchOnlyElems.length; i++) {
+      console.log(touchOnlyElems[i].style.display);
+      touchOnlyElems[i].style.display = "none";
+    }
+  }
+        
+      });
+    </script>
   </body>
 </html>
