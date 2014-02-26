@@ -19,6 +19,6 @@
       Martin Naumann
     </author>
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <preference name="permissions" value="none" />
 
 </widget>
