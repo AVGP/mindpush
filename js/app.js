@@ -120,7 +120,14 @@
     e.preventDefault();
   });
   
+  document.body.addEventListener("touchmove", function(e) {
+    e.preventDefault();
+    document.querySelector("svg").style.left = (e.changedTouches[0].clientX - touchStartPoint.x) + "px";
+  });
+  
   document.body.addEventListener("touchend", function(e) {
+    document.querySelector("svg").style.left = "0px";
+    
     if(Math.abs(e.changedTouches[0].clientY - touchStartPoint.y) > 50 && !inGame) {
       inGame = true;
       gotoSection("game");
